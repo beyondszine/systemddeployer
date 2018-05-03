@@ -1,0 +1,8 @@
+[Unit]
+Description=this is my description
+[Service]
+ExecStart=/home/beyond/github/systemddeployer/try.sh
+StandardOutput=null
+[Install]
+WantedBy=multi-user.target
+Alias=Testservice.service
