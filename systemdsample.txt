@@ -1,0 +1,10 @@
+[Unit]
+Description=
+
+[Service]
+ExecStart= start
+ExecStop=/usr/bin/vgaoff stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
