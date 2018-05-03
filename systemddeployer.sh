@@ -1,9 +1,66 @@
 #!/bin/bash
 
-myServiceName=$1.service
-myFileName=$2
-myDescription=$3
-myTarget=$4
+
+function showUsage() {
+	echo "-----------------------"
+	echo "-----------------------"
+	echo "-----------------------"
+	echo "-----------------------"
+}
+
+function printVariables(){
+	echo $myServiceName
+	echo $myFileName
+	echo $myDescription
+	echo $myTarget
+}
+
+
+if [ $# -lt 1 ]
+then
+	echo "Error! Not enough number of args!"
+	showUsage
+	exit 1
+fi
+
+
+while getopts ":hf:s:d:t:" opt;
+do
+  case ${opt} in
+    h )
+			echo "-h Used for help"
+			showUsage
+			exit 1
+      ;;
+    t )
+			myTarget=$OPTARG
+			# echo $OPTARG
+      ;;
+		f )
+			myFileName=$OPTARG
+			# echo $OPTARG
+      ;;
+		s )
+			myServiceName=$OPTARG.service
+			# echo $OPTARG
+      ;;
+		d )
+			myDescription=$OPTARG
+			# echo $OPTARG
+      ;;
+    \? )
+		 	echo "Usage: cmd [-h] [-t]..."
+      ;;
+		: )
+      echo "Invalid option: $OPTARG requires an argument"
+      ;;
+		* )
+			echo "bad option!!"
+		 ;;
+  esac
+done
+shift $((OPTIND -1))
+printVariables
 
 function createFile(){
 	touch $1
@@ -20,10 +77,10 @@ function addElement(){
 
 function serviceCmd(){
 	sudo systemctl $1 $myServiceName
-
 }
 
 function deployService(){
+	echo "Command Recieved: "$1
 	sudo cp $myServiceName "/lib/systemd/system/"
 }
 
@@ -36,7 +93,9 @@ addElement StandardOutput null
 addUnit Install
 addElement WantedBy "$myTarget"
 addElement Alias "$myServiceName"
-deployService 
+deployService
 serviceCmd "enable"
 serviceCmd "start"
 serviceCmd "status"
+serviceCmd "stop"
+serviceCmd "disable"

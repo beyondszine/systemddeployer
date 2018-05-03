@@ -1,0 +1,16 @@
+[Unit]
+Description=this is my description. It will keep on printing in some file
+[Service]
+ExecStart=/home/beyond/github/systemddeployer/try.sh
+StandardOutput=null
+[Install]
+WantedBy=multi-user.target
+Alias=TestService.service
+[Unit]
+Description=this is my description. It will keep on printing in some file
+[Service]
+ExecStart=/home/beyond/github/systemddeployer/try.sh
+StandardOutput=null
+[Install]
+WantedBy=multi-user.target
+Alias=TestService.service
